@@ -14,10 +14,10 @@ namespace CityInfo.api
                 Id= 1,
                 Name= "Tripoli",
                 Description = "The Cpital",
-                poinOfIntrest = new List<PoinOfIntrestDTO>()
+                pointOfInrests = new List<PoinOfIntrestDTO>()
                 {
                     new PoinOfIntrestDTO(){
-                    Id= 2,
+                    Id= 1,
                     Name= "Bengazy",
                     Description = "The Cpital The second"
                     },
@@ -33,15 +33,15 @@ namespace CityInfo.api
                 Id= 2,
                 Name= "Bengazy",
                 Description = "The Cpital The second",
-                   poinOfIntrest = new List<PoinOfIntrestDTO>()
+                   pointOfInrests = new List<PoinOfIntrestDTO>()
                 {
                     new PoinOfIntrestDTO(){
-                    Id= 5,
+                    Id= 1,
                     Name= "Bengazy",
                     Description = "The Cpital The second"
                     },
                     new PoinOfIntrestDTO(){
-                    Id= 6,
+                    Id= 2,
                     Name= "Troopl",
                     Description = "The Cpital The second"
                     }
@@ -51,15 +51,15 @@ namespace CityInfo.api
                 Id= 3,
                 Name= "Tarhuna",
                 Description = "My home land",
-                   poinOfIntrest = new List<PoinOfIntrestDTO>()
+                   pointOfInrests = new List<PoinOfIntrestDTO>()
                 {
                     new PoinOfIntrestDTO(){
-                    Id= 7,
+                    Id= 1,
                     Name= "Bengazy",
                     Description = "The Cpital The second"
                     },
                     new PoinOfIntrestDTO(){
-                    Id= 8,
+                    Id= 2,
                     Name= "Benssgazy",
                     Description = "The Cpital The second"
                     }
