@@ -17,6 +17,37 @@ namespace CityInfo.api.Services
             return await _context.Cities.OrderBy(c=>c.Id).ToListAsync();
 
         }
+        public async Task<(IEnumerable<City>, PaginationMetaData)> GetCitiesAsync(string? name, string? searchQuery,
+            int currentPage, int pageSize)
+        {
+          
+
+            var collection = _context.Cities as IQueryable<City>;
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                name = name.Trim();
+                collection = collection.Where(c => c.Name == name);
+
+            }
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                searchQuery = searchQuery.Trim();
+                collection = collection.Where(c =>c.Name.Contains(searchQuery)|| (c.Description != null && c.Description.Contains(searchQuery)));
+
+
+            }
+
+            var totalItemsCount = await collection.CountAsync();
+            var paginationMetaData = new PaginationMetaData(totalItemsCount, currentPage, pageSize);
+             var collectionToReturn =  await collection.OrderBy(c=>c.Name)
+                .Skip(pageSize * (currentPage -1))
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (collectionToReturn, paginationMetaData);    
+
+        }
 
         public async Task<City?> GetCityAsync(int cityId, bool includePOI)
         {
@@ -76,7 +107,13 @@ namespace CityInfo.api.Services
             return dd;
         }
 
+        public void DeletePointOfIntrest(PointOfInrest pointOfInrest) { 
+        _context.PointOfInrest.Remove(pointOfInrest);
+        
+        }
+       
 
-     
+
+
     }
 }

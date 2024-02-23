@@ -3,6 +3,7 @@ using CityInfo.api.Models;
 using CityInfo.api.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace CityInfo.api.Controllers
 {
@@ -13,6 +14,8 @@ namespace CityInfo.api.Controllers
     {
         private readonly ICityInfoReposotiory _cityInfoRepsotory;
         private readonly IMapper _mapper;
+        const int maxCitiesPageSize = 20;
+
 
         public CitiesController(ICityInfoReposotiory cityInfoRepsotory, IMapper mapper) {
             _cityInfoRepsotory = cityInfoRepsotory ?? throw new ArgumentNullException(nameof(CitiesDataStore));
@@ -20,11 +23,14 @@ namespace CityInfo.api.Controllers
 
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CityOnlyDto>>> GetCities() {
+        public async Task<ActionResult<IEnumerable<CityOnlyDto>>> GetCities([FromQuery] string? name, [FromQuery] string? searchQuery,int currentPage, int pageSize) {
 
-            var cityEntities = await _cityInfoRepsotory.GetCitiesAsync();
-
-
+            if (pageSize > maxCitiesPageSize)
+            {
+                pageSize = maxCitiesPageSize;
+            }
+            var (cityEntities, paginationMetadata) = await _cityInfoRepsotory.GetCitiesAsync(name, searchQuery, currentPage,pageSize);
+            Response.Headers.Add("X-Pagination",JsonSerializer.Serialize(paginationMetadata));
             return Ok(_mapper.Map<IEnumerable<CityOnlyDto>>(cityEntities));
         }
 
